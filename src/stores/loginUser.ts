@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "@/stores/index";
+import ACCESS_ENUM from "@/access/accessEnum";
+
+//todo 查阅redux的官网 弄清楚写法 （有点忘记了）
 
 // 默认用户
 const DEFAULT_USER: API.LoginUserVO = {
     userName: "未登录",
     userProfile: "暂无简介",
     userAvatar: "/assets/notLoginUser.png",
-    userRole: "guest",
+    userRole: ACCESS_ENUM.NOT_LOGIN,
 };
 
 /**
@@ -28,3 +30,4 @@ export const loginUserSlice = createSlice({
 export const { setLoginUser } = loginUserSlice.actions;
 
 export default loginUserSlice.reducer;
+

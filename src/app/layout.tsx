@@ -7,6 +7,8 @@ import {Provider, useDispatch} from "react-redux";
 import store, {AppDispatch} from "@/stores";
 import {getLoginUserUsingGet} from "@/api/userController";
 import {setLoginUser} from "@/stores/loginUser";
+import AccessLayout from "@/access/AccessLayout";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 /**
  * 全局初始化逻辑
@@ -20,7 +22,6 @@ const InitLayout: React.FC<Readonly<{
     /**
      * 全局初始化函数 有全局单词调用的代码 都可以写到这里
      */
-
     const dispatch = useDispatch<AppDispatch>()
 
     //初始化全局用户状态
@@ -30,8 +31,9 @@ const InitLayout: React.FC<Readonly<{
         if (res.data){
             //更新全局用户状态
         }else {
+            //仅用于测试
             // setTimeout( () => {
-            //     const testUser = {userName:"登录测试",userAvatar: "https://www.code-nac.cn/logo.png"}
+            //     const testUser = {userName:"登录测试",userAvatar: "https://www.code-nav.cn/logo.png",userRole: ACCESS_ENUM.ADMIN}
             //     dispatch(setLoginUser(testUser))
             // },3000)
         }
@@ -54,7 +56,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
             <Provider store={store}>
                 <InitLayout>
                     <BasicLayout>
-                        {children}
+                        <AccessLayout>
+                            {children}
+                        </AccessLayout>
                     </BasicLayout>
                 </InitLayout>
             </Provider>

@@ -12,6 +12,9 @@ import "./index.css"
 import menu from "../../../config/menu";
 import {useSelector} from "react-redux";
 import {RootState} from "@/stores";
+import getAccessibleMenus from "@/access/menuAccess";
+import MdEditor from "@/components/MdEditor";
+import MdViewer from "@/components/MdViewer";
 
 /**
  * 搜索条
@@ -53,11 +56,15 @@ export default function BasicLayout({ children }: Props) {
 
     const loginUser = useSelector ( (state : RootState ) => state.loginUser);
 
+    const [text, setText] = useState("")
+
+
   const pathname = usePathname();
   return (
     <div
       id="basicLayout"
       style={{
+          minHeight : "100vh",
         height: "100vh",
         overflow: "auto",
       }}
@@ -122,8 +129,16 @@ export default function BasicLayout({ children }: Props) {
         onMenuHeaderClick={(e) => console.log(e)}
           //定义有哪些菜单
           menuDataRender={ () => {
-              return menu;
+              return getAccessibleMenus(loginUser,menu);
           }
+              /**
+               * 这里原来的写法应该是
+               *    menuDataRender={ () => {
+               *        menu
+               *        }
+               *    }
+               * 所以也就是根据新的数组 重新渲染的菜单列表
+               */
           }
           //定义了菜单项如何渲染
         menuItemRender={(item, dom) => (
@@ -135,6 +150,9 @@ export default function BasicLayout({ children }: Props) {
           </Link>
         )}
       >
+          {/*仅用于测试*/}
+          {/*<MdEditor value={text} onChange={setText}/>*/}
+          {/*<MdViewer value={text} />*/}
         {children}
       </ProLayout>
     </div>
