@@ -10,6 +10,8 @@ import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
 import "./index.css"
 import menu from "../../../config/menu";
+import {useSelector} from "react-redux";
+import {RootState} from "@/stores";
 
 /**
  * 搜索条
@@ -48,6 +50,9 @@ interface Props {
 }
 
 export default function BasicLayout({ children }: Props) {
+
+    const loginUser = useSelector ( (state : RootState ) => state.loginUser);
+
   const pathname = usePathname();
   return (
     <div
@@ -60,7 +65,7 @@ export default function BasicLayout({ children }: Props) {
       <ProLayout
           logo={
 
-            <Image src="/assets/logo.png" height={32} width={32} alt="面试鸡刷题网站 - by LKING" />
+            <Image src="/assets/logo_mianshiji.png" height={32} width={32} alt="面试鸡刷题网站 - by LKING" />
 
           }
           title="面试鸡刷题平台"
@@ -70,9 +75,9 @@ export default function BasicLayout({ children }: Props) {
           pathname,
         }}
         avatarProps={{
-          src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
+          src: loginUser.userAvatar || "/assets/notLoginUser.png",
           size: "small",
-          title: "LKING",
+          title: loginUser.userName || "面试鸡",
           render: (props, dom) => {
             return (
               <Dropdown
@@ -97,7 +102,7 @@ export default function BasicLayout({ children }: Props) {
               <SearchInput key="search"/>,
               <a
                   key="github"
-                  href="https://github.com/lyhhhhhhhhhhhh/mianshiji-next-frontend">
+                  href="https://github.com/lyhhhhhhhhhhhh">
                   <GithubFilled key="GithubFilled" />
               </a>
           ];
