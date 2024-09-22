@@ -6,9 +6,8 @@ import React, {useCallback, useEffect} from "react";
 import {Provider, useDispatch} from "react-redux";
 import store, {AppDispatch} from "@/stores";
 import {getLoginUserUsingGet} from "@/api/userController";
-import {setLoginUser} from "@/stores/loginUser";
 import AccessLayout from "@/access/AccessLayout";
-import ACCESS_ENUM from "@/access/accessEnum";
+import {setLoginUser} from "@/stores/loginUser";
 
 /**
  * 全局初始化逻辑
@@ -30,6 +29,7 @@ const InitLayout: React.FC<Readonly<{
         const res = await getLoginUserUsingGet();
         if (res.data){
             //更新全局用户状态
+            dispatch(setLoginUser(res.data))
         }else {
             //仅用于测试
             // setTimeout( () => {
