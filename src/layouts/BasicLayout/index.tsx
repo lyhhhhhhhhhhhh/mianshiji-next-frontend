@@ -1,7 +1,7 @@
 "use client"
-import {GithubFilled, LogoutOutlined, SearchOutlined,} from "@ant-design/icons";
+import {GithubFilled, LogoutOutlined} from "@ant-design/icons";
 import {ProLayout} from "@ant-design/pro-components";
-import {Dropdown, Input, message} from "antd";
+import {Dropdown, message} from "antd";
 import React from "react";
 import {Props} from "next/script";
 import Image from "next/image";
@@ -16,39 +16,7 @@ import getAccessibleMenus from "@/access/menuAccess";
 import {userLogoutUsingPost} from "@/api/userController";
 import {setLoginUser} from "@/stores/loginUser";
 import DEFAULT_USER from "@/constants/user";
-
-
-/**
- * 搜索条
- * @constructor
- */
-const SearchInput = () => {
-    return (
-        <div
-            key="SearchOutlined"
-            aria-hidden
-            style={{
-                display: "flex",
-                alignItems: "center",
-                marginInlineEnd: 24,
-            }}
-            onMouseDown={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-            }}
-        >
-            <Input
-                style={{
-                    borderRadius: 4,
-                    marginInlineEnd: 12,
-                }}
-                prefix={<SearchOutlined style={{}}/>}
-                placeholder="搜索题目"
-                variant="borderless"
-            />
-        </div>
-    );
-};
+import SearchInput from "@/layouts/BasicLayout/components/SearchInput";
 
 interface Props {
     children: React.ReactNode;
@@ -60,7 +28,7 @@ export default function BasicLayout({children}: Props) {
 
     const dispatch = useDispatch<AppDispatch>();
 
-    const router = useRouter()
+    const router = useRouter(); // 使用 useRouter 获取当前路径
 
     /**
      * 用户注销
@@ -84,6 +52,9 @@ export default function BasicLayout({children}: Props) {
 
 
     const pathname = usePathname();
+
+    console.log(pathname)
+
     return (
         <div
             id="basicLayout"
@@ -157,7 +128,8 @@ export default function BasicLayout({children}: Props) {
                 actionsRender={(props) => {
                     if (props.isMobile) return [];
                     return [
-                        <SearchInput key="search"/>,
+                        //如果当前路径不包含 question 则显示搜索框
+                        !pathname.includes('/question') ? <SearchInput key="search"/> : null,
                         <a
                             key="github"
                             href="https://github.com/lyhhhhhhhhhhhh">

@@ -22,6 +22,10 @@ const menus = [
     target: "_blank",
   },
   {
+    path: "/test",
+    name: "测试",
+  },
+  {
     path: "/admin",
     name: "管理",
     icon: <CrownOutlined />,

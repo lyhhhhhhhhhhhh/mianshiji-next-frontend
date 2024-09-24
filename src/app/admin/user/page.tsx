@@ -1,60 +1,65 @@
 "use client"
 
-import CreateModal from './components/CreateModal';
-import UpdateModal from './components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/api/userController';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, message, Space, Typography } from 'antd';
-import React, { useRef, useState } from 'react';
+// 引入依赖组件和库
+import CreateModal from './components/CreateModal'; // 新建用户的模态框组件
+import UpdateModal from './components/UpdateModal'; // 更新用户的模态框组件
+import { deleteUserUsingPost, listUserByPageUsingPost } from '@/api/userController'; // 用户相关的 API 请求
+import { PlusOutlined } from '@ant-design/icons'; // 加号图标，用于按钮
+import type { ActionType, ProColumns } from '@ant-design/pro-components'; // Ant Design Pro 提供的类型
+import { PageContainer, ProTable } from '@ant-design/pro-components'; // Ant Design Pro 的页面容器和表格组件
+import { Button, message, Space, Typography } from 'antd'; // Ant Design UI 组件库
+import React, { useRef, useState } from 'react'; // React 的核心库，用于函数式组件和状态管理
 
 /**
- * 用户管理页面
+ * 用户管理页面组件
  *
  * @constructor
  */
 const UserAdminPage: React.FC = () => {
-  // 是否显示新建窗口
+  // 定义用于控制新建用户模态框是否显示的状态
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 是否显示更新窗口
+
+  // 定义用于控制更新用户模态框是否显示的状态
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+
+  // 用于操作表格的 action 引用，用来刷新数据等
   const actionRef = useRef<ActionType>();
-  // 当前用户点击的数据
+
+  // 存储当前选中的行数据（当前用户），用于在更新时显示
   const [currentRow, setCurrentRow] = useState<API.User>();
 
   /**
-   * 删除节点
+   * 删除用户
    *
-   * @param row
+   * @param row 当前选中的行数据
    */
   const handleDelete = async (row: API.User) => {
-    const hide = message.loading('正在删除');
-    if (!row) return true;
+    const hide = message.loading('正在删除'); // 显示删除中的加载提示
+    if (!row) return true; // 如果没有选中用户，直接返回
     try {
-      await deleteUserUsingPost({
-        id: row.id as any,
+      await deleteUserUsingPost({ // 调用删除用户的 API
+        id: row.id as any, // 传递用户 ID
       });
-      hide();
-      message.success('删除成功');
-      actionRef?.current?.reload();
+      hide(); // 隐藏加载提示
+      message.success('删除成功'); // 显示成功信息
+      actionRef?.current?.reload(); // 刷新表格数据
       return true;
     } catch (error: any) {
-      hide();
-      message.error('删除失败，' + error.message);
+      hide(); // 隐藏加载提示
+      message.error('删除失败，' + error.message); // 显示错误信息
       return false;
     }
   };
 
   /**
-   * 表格列配置
+   * 定义表格的列配置
    */
   const columns: ProColumns<API.User>[] = [
     {
-      title: 'id',
-      dataIndex: 'id',
-      valueType: 'text',
-      hideInForm: true,
+      title: 'id', // 列标题
+      dataIndex: 'id', // 数据索引
+      valueType: 'text', // 值类型为文本
+      hideInForm: true, // 在表单中隐藏此列
     },
     {
       title: '账号',
@@ -69,21 +74,21 @@ const UserAdminPage: React.FC = () => {
     {
       title: '头像',
       dataIndex: 'userAvatar',
-      valueType: 'image',
+      valueType: 'image', // 值类型为图片
       fieldProps: {
-        width: 64,
+        width: 64, // 定义图片的宽度
       },
-      hideInSearch: true,
+      hideInSearch: true, // 在搜索表单中隐藏此列
     },
     {
       title: '简介',
       dataIndex: 'userProfile',
-      valueType: 'textarea',
+      valueType: 'textarea', // 值类型为多行文本
     },
     {
       title: '权限',
       dataIndex: 'userRole',
-      valueEnum: {
+      valueEnum: { // 值枚举，用于显示权限类型
         user: {
           text: '用户',
         },
@@ -94,9 +99,9 @@ const UserAdminPage: React.FC = () => {
     },
     {
       title: '创建时间',
-      sorter: true,
+      sorter: true, // 可排序
       dataIndex: 'createTime',
-      valueType: 'dateTime',
+      valueType: 'dateTime', // 值类型为日期时间
       hideInSearch: true,
       hideInForm: true,
     },
@@ -109,90 +114,101 @@ const UserAdminPage: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: '操作',
+      title: '操作', // 操作列，用于放置操作按钮
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => (
-        <Space size="middle">
-          <Typography.Link
-            onClick={() => {
-              setCurrentRow(record);
-              setUpdateModalVisible(true);
-            }}
-          >
-            修改
-          </Typography.Link>
-          <Typography.Link type="danger" onClick={() => handleDelete(record)}>
-            删除
-          </Typography.Link>
-        </Space>
+      render: (_, record) => ( // 渲染操作按钮
+          <Space size="middle">
+            <Typography.Link
+                onClick={() => {
+                  setCurrentRow(record); // 设定当前用户
+                  setUpdateModalVisible(true); // 打开更新模态框
+                }}
+            >
+              修改
+            </Typography.Link>
+            <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+              删除
+            </Typography.Link>
+          </Space>
       ),
     },
   ];
+
+  // 返回用户管理页面的 JSX 结构
   return (
-    <PageContainer>
-      <ProTable<API.User>
-        headerTitle={'查询表格'}
-        actionRef={actionRef}
-        rowKey="key"
-        search={{
-          labelWidth: 120,
-        }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              setCreateModalVisible(true);
+      <PageContainer>
+        <ProTable<API.User>
+            headerTitle={'查询表格'} // 表格头部标题
+            actionRef={actionRef} // actionRef 用于触发刷新操作
+            rowKey="key" // 每一行的唯一标识字段
+            search={{
+              labelWidth: 120, // 搜索栏标签宽度
             }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
-        request={async (params, sort, filter) => {
-          const sortField = Object.keys(sort)?.[0];
-          const sortOrder = sort?.[sortField] ?? undefined;
+            toolBarRender={() => [ // 工具栏渲染
+              <Button
+                  type="primary"
+                  key="primary"
+                  onClick={() => {
+                    setCreateModalVisible(true); // 打开新建用户模态框
+                  }}
+              >
+                <PlusOutlined /> 新建
+              </Button>,
+            ]}
+            // 异步请求数据
+            request={async (params, sort, filter) => {
+              const sortField = Object.keys(sort)?.[0]; // 获取排序字段
+              const sortOrder = sort?.[sortField] ?? undefined; // 获取排序顺序
 
-          const { data, code } = await listUserByPageUsingPost({
-            ...params,
-            sortField,
-            sortOrder,
-            ...filter,
-          } as API.UserQueryRequest);
+              const { data, code } = await listUserByPageUsingPost({
+                ...params, // 传递查询参数
+                sortField,
+                sortOrder,
+                ...filter, // 传递过滤参数
+              } as API.UserQueryRequest);
 
-          return {
-            success: code === 0,
-            data: data?.records || [],
-            total: Number(data?.total) || 0,
-          };
-        }}
-        columns={columns}
-      />
-      <CreateModal
-        visible={createModalVisible}
-        columns={columns}
-        onSubmit={() => {
-          setCreateModalVisible(false);
-          actionRef.current?.reload();
-        }}
-        onCancel={() => {
-          setCreateModalVisible(false);
-        }}
-      />
-      <UpdateModal
-        visible={updateModalVisible}
-        columns={columns}
-        oldData={currentRow}
-        onSubmit={() => {
-          setUpdateModalVisible(false);
-          setCurrentRow(undefined);
-          actionRef.current?.reload();
-        }}
-        onCancel={() => {
-          setUpdateModalVisible(false);
-        }}
-      />
-    </PageContainer>
+              return {
+                success: code === 0, // 请求成功时返回 true
+                data: data?.records || [], // 返回记录数据
+                total: Number(data?.total) || 0, // 返回数据总数
+              };
+            }}
+
+            onRequestError={ (error) => {
+                console.log(error)
+            }}
+            columns={columns} // 传递表格列配置
+        />
+        {/* 新建用户模态框 */}
+        <CreateModal
+            visible={createModalVisible} // 控制是否可见
+            columns={columns} // 表单使用的列配置
+            onSubmit={() => {
+              setCreateModalVisible(false); // 提交后关闭模态框
+              actionRef.current?.reload(); // 刷新表格
+            }}
+            onCancel={() => {
+              setCreateModalVisible(false); // 取消后关闭模态框
+            }}
+        />
+        {/* 更新用户模态框 */}
+        <UpdateModal
+            visible={updateModalVisible} // 控制是否可见
+            columns={columns} // 表单使用的列配置
+            oldData={currentRow} // 传递旧数据
+            onSubmit={() => {
+              setUpdateModalVisible(false); // 提交后关闭模态框
+              setCurrentRow(undefined); // 清空当前选中的行数据
+              actionRef.current?.reload(); // 刷新表格
+            }}
+            onCancel={() => {
+              setUpdateModalVisible(false); // 取消后关闭模态框
+            }}
+        />
+      </PageContainer>
   );
 };
+
+// 导出组件
 export default UserAdminPage;
