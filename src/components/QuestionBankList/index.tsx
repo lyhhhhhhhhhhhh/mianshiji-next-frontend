@@ -8,7 +8,7 @@ import Link from "next/link";
  * 题库列表组件
  */
 interface Props {
-    questionBankList: API.QuestionBankVO;
+    questionBankList: API.QuestionBankVO[];
 }
 
 const QuestionBankList = (props: Props) => {

@@ -29,12 +29,10 @@ export default async function BankPages() {
         console.log(e.message)
     }
 
-
-
     return (
         <div id="bankPages" className="max-width-content">
             <Title level={3}>题库大全</Title>
-            <QuestionB ankList questionBankList={questionBankList}/>
+            <QuestionBankList questionBankList={questionBankList}/>
         </div>
     )
 }
