@@ -4,6 +4,7 @@ import Title from "antd/es/typography/Title";
 import TagList from "@/components/TagList";
 import MdViewer from "@/components/MdViewer";
 import {Card} from "antd";
+import useAddUserSignInRecords from "@/hooks/useAddUserSignInRecords";
 
 interface Props {
     question : API.QuestionVO;
@@ -11,6 +12,9 @@ interface Props {
 
 const QuestionCard = (props : Props) => {
     const {question} = props;
+
+    //执行签到钩子
+    useAddUserSignInRecords();
 
     return (
         <div id="bankQuestionPage">

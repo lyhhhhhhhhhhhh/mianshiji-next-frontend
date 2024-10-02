@@ -11,6 +11,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListInt_ = {
+    code?: number;
+    data?: number[];
+    message?: string;
+  };
+
   type BaseResponseLoginUserVO_ = {
     code?: number;
     data?: LoginUserVO;
@@ -168,6 +174,11 @@ declare namespace API {
   type getQuestionVOByIdUsingGETParams = {
     /** id */
     id?: number;
+  };
+
+  type getSignInRecordUsingGETParams = {
+    /** year */
+    year?: number;
   };
 
   type getUserByIdUsingGETParams = {
