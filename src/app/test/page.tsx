@@ -1,235 +1,47 @@
-"use client"
+"use client";
 
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Space, Tag } from 'antd';
-import { useRef } from 'react';
-export const waitTimePromise = async (time: number = 100) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true);
-        }, time);
-    });
-};
+import MdEditor from "@/components/MdEditor";
+import {Button, message} from "antd";
+import {useCallback, useState} from "react";
+import {scSend} from "serverchan-sdk";
 
-export const waitTime = async (time: number = 100) => {
-    await waitTimePromise(time);
-};
+export default function TestPage() {
+    // 使用 useState 来存储编辑器的内容
+    const [markdownContent, setMarkdownContent] = useState<string>("");
 
-type GithubIssueItem = {
-    url: string;
-    id: number;
-    number: number;
-    title: string;
-    labels: {
-        name: string;
-        color: string;
-    }[];
-    state: string;
-    comments: number;
-    created_at: string;
-    updated_at: string;
-    closed_at?: string;
-};
+    const sendKey = "sctp1230t1qsyp6qjy9z1f3w6fy8un3";
+    const title = "通知";
 
-const columns: ProColumns<GithubIssueItem>[] = [
-    {
-        dataIndex: 'index',
-        valueType: 'indexBorder',
-        width: 48,
-    },
-    {
-        title: '标题',
-        dataIndex: 'title',
-        copyable: true,
-        ellipsis: true,
-        tooltip: '标题过长会自动收缩',
-        formItemProps: {
-            rules: [
-                {
-                    required: true,
-                    message: '此项为必填项',
-                },
-            ],
-        },
-    },
-    {
-        disable: true,
-        title: '状态',
-        dataIndex: 'state',
-        filters: true,
-        onFilter: true,
-        ellipsis: true,
-        valueType: 'select',
-        valueEnum: {
-            all: { text: '超长'.repeat(50) },
-            open: {
-                text: '未解决',
-                status: 'Error',
-            },
-            closed: {
-                text: '已解决',
-                status: 'Success',
-                disabled: true,
-            },
-            processing: {
-                text: '解决中',
-                status: 'Processing',
-            },
-        },
-    },
-    {
-        disable: true,
-        title: '标签',
-        dataIndex: 'labels',
-        search: false,
-        renderFormItem: (_, { defaultRender }) => {
-            return defaultRender(_);
-        },
-        render: (_, record) => (
-            <Space>
-                {record.labels.map(({ name, color }) => (
-                    <Tag color={color} key={name}>
-                        {name}
-                    </Tag>
-                ))}
-            </Space>
-        ),
-    },
-    {
-        title: '创建时间',
-        key: 'showTime',
-        dataIndex: 'created_at',
-        valueType: 'date',
-        sorter: true,
-        hideInSearch: true,
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'created_at',
-        valueType: 'dateRange',
-        hideInTable: true,
-        search: {
-            transform: (value) => {
-                return {
-                    startTime: value[0],
-                    endTime: value[1],
-                };
-            },
-        },
-    },
-    {
-        title: '操作',
-        valueType: 'option',
-        key: 'option',
-        render: (text, record, _, action) => [
-            <a
-                key="editable"
-            >
-                编辑
-            </a>,
-            <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-                查看
-            </a>,
-            <TableDropdown
-                key="actionGroup"
-                onSelect={() => action?.reload()}
-                menus={[
-                    { key: 'copy', name: '复制' },
-                    { key: 'delete', name: '删除' },
-                ]}
-            />,
-        ],
-    },
-];
+    // onChange 回调函数，使用 useCallback 来优化
+    const handleEditorChange = useCallback((content: string) => {
+        setMarkdownContent(content); // 更新编辑器内容到 state 中
+    }, []);
 
-export default function TestPage()  {
-    const actionRef = useRef<ActionType>();
+    const sendMsgToPhone = async () => {
+        try {
+            // 发送消息并等待响应
+            const response = await scSend(sendKey, title, markdownContent, {tags: '服务器报警|报告'});
+            message.success(response?.message || '消息发送成功');
+        } catch (error) {
+            // 安全处理错误
+            message.error(error instanceof Error ? error.message : '发送失败，请重试');
+        }
+    };
 
     return (
-        <ProTable<GithubIssueItem>
-            columns={columns}
-            actionRef={actionRef}
-            cardBordered
-            request={async (params, sort, filter) => {
-                console.log(sort, filter);
-                await waitTime(2000);
-                return {
-
-                }
-            }}
-            editable={{
-                type: 'multiple',
-            }}
-            columnsState={{
-                persistenceKey: 'pro-table-singe-demos',
-                persistenceType: 'localStorage',
-                defaultValue: {
-                    option: { fixed: 'right', disable: true },
-                },
-                onChange(value) {
-                    console.log('value: ', value);
-                },
-            }}
-            rowKey="id"
-            search={{
-                labelWidth: 'auto',
-            }}
-            options={{
-                setting: {
-                    listsHeight: 400,
-                },
-            }}
-            form={{
-                // 由于配置了 transform，提交的参数与定义的不同这里需要转化一下
-                syncToUrl: (values, type) => {
-                    if (type === 'get') {
-                        return {
-                            ...values,
-                            created_at: [values.startTime, values.endTime],
-                        };
-                    }
-                    return values;
-                },
-            }}
-            dateFormatter="string"
-            headerTitle="高级表格"
-            toolBarRender={() => [
-                <Button
-                    key="button"
-                    icon={<PlusOutlined />}
-                    onClick={() => {
-                        actionRef.current?.reload();
-                    }}
-                    type="primary"
-                >
-                    新建
-                </Button>,
-                <Dropdown
-                    key="menu"
-                    menu={{
-                        items: [
-                            {
-                                label: '1st item',
-                                key: '1',
-                            },
-                            {
-                                label: '2nd item',
-                                key: '2',
-                            },
-                            {
-                                label: '3rd item',
-                                key: '3',
-                            },
-                        ],
-                    }}
-                >
-                    <Button>
-                        <EllipsisOutlined />
-                    </Button>
-                </Dropdown>,
-            ]}
-        />
+        <div className="max-width-content" style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <MdEditor
+                value={markdownContent} // 传递编辑器的内容
+                onChange={handleEditorChange} // 当内容变化时，更新 state
+                placeholder="Start typing your markdown here..."
+            />
+            <Button
+                type="primary"
+                style={{marginTop: "10px"}}
+                onClick={sendMsgToPhone}
+            >
+                发送消息到手机
+            </Button>
+        </div>
     );
-};
+}

@@ -22,7 +22,7 @@ export default function UserCenterPage() {
     const [activeTab, setActiveTab] = useState<string>("record")
 
     return (
-        <div id="UserCenterPage" className="max-width-content">
+        <div id="UserCenterPage" style={{maxWidth:"1200px"}}>
             <Row gutter={[16, 16]}>
                 <Col xs={24} md={6}>
                     <Card style={{textAlign:"center"}}>
