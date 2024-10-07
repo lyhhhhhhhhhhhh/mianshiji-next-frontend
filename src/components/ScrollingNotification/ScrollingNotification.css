@@ -1,0 +1,8 @@
+.scrolling-notification {
+    animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+}

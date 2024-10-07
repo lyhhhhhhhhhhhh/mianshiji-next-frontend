@@ -7,7 +7,7 @@ import { deleteUserUsingPost, listUserByPageUsingPost } from '@/api/userControll
 import { PlusOutlined } from '@ant-design/icons'; // 加号图标，用于按钮
 import type { ActionType, ProColumns } from '@ant-design/pro-components'; // Ant Design Pro 提供的类型
 import { PageContainer, ProTable } from '@ant-design/pro-components'; // Ant Design Pro 的页面容器和表格组件
-import { Button, message, Space, Typography } from 'antd'; // Ant Design UI 组件库
+import {Button, message, Popconfirm, Space, Typography} from 'antd'; // Ant Design UI 组件库
 import React, { useRef, useState } from 'react'; // React 的核心库，用于函数式组件和状态管理
 
 /**
@@ -127,9 +127,15 @@ const UserAdminPage: React.FC = () => {
             >
               修改
             </Typography.Link>
-            <Typography.Link type="danger" onClick={() => handleDelete(record)}>
-              删除
-            </Typography.Link>
+              <Popconfirm
+                  title="删除操作提示"
+                  description="确定删除此条记录吗"
+                  onConfirm={ () => handleDelete(record)}
+                  >
+                  <Typography.Link type="danger">
+                      删除
+                  </Typography.Link>
+              </Popconfirm>
           </Space>
       ),
     },

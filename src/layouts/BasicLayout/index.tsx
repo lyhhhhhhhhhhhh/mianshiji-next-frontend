@@ -3,7 +3,6 @@ import {GithubFilled, LogoutOutlined, UserOutlined} from "@ant-design/icons";
 import {ProLayout} from "@ant-design/pro-components";
 import {Dropdown, message} from "antd";
 import React from "react";
-import {Props} from "next/script";
 import Image from "next/image";
 import {usePathname, useRouter} from "next/navigation";
 import Link from "next/link";

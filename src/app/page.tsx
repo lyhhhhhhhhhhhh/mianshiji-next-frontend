@@ -7,6 +7,7 @@ import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import QuestionBankList from "@/components/QuestionBankList";
 import QuestionList from "@/components/QuestionList";
+import ScrollingNotification from "@/components/ScrollingNotification";
 
 /**
  * 主页
@@ -41,10 +42,14 @@ export default async function HomePage() {
     }
 
     return <div id="homePage" className="max-width-content">
+
+
         <Flex justify="space-between" align="center">
             <Title level={3}>最新题库</Title>
             <Link href={"/banks"}>查看更多</Link>
         </Flex>
+        {/*这里的扩展点 就是可以做一个热点 以及推荐题目的 滚动条 */}
+        {/*<ScrollingNotification title="测试标题" content="测试内容"/>*/}
         <div>
             题库列表
             <QuestionBankList questionBankList={questionBankList} />
