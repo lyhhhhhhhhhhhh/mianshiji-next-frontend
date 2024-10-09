@@ -6,7 +6,6 @@ const myAxios = axios.create({
     timeout: 50000,
     withCredentials: true,
 });
-
 // 创建请求拦截器
 myAxios.interceptors.request.use(
     function (config) {

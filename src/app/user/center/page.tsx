@@ -7,6 +7,7 @@ import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
 import {useState} from "react";
 import CalendarChart from "@/app/user/center/components/CalendarChart";
+import SendMsgToPhone from "@/app/user/center/components/SendMsgToPhone";
 
 /**
  * 用户中心页面
@@ -45,7 +46,7 @@ export default function UserCenterPage() {
                         },
                         {
                             key: "others",
-                            label: "其他"
+                            label: "设置每日消息提示"
                         }
                     ]}
                     activeTabKey={activeTab}
@@ -58,7 +59,9 @@ export default function UserCenterPage() {
                         {activeTab === 'record' && <>
                         <CalendarChart></CalendarChart>
                         </>}
-                        {activeTab === 'others' && <>bbb</>}
+                        {activeTab === 'others' && <>
+                        <SendMsgToPhone></SendMsgToPhone>
+                        </>}
                     </Card>
                 </Col>
             </Row>

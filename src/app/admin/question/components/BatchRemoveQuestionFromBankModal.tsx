@@ -1,14 +1,10 @@
 "use client"
 
-import {deleteQuestionUsingPost1, updateQuestionUsingPost} from '@/api/questionController';
+import {updateQuestionUsingPost} from '@/api/questionController';
 import {Button, Form, message, Modal, Select} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {
-    addQuestionBankQuestionUsingPost, batchAddQuestionBankQuestionUsingPost, batchRemoveQuestionBankQuestionUsingPost,
-    listQuestionBankQuestionVoByPageUsingPost
-} from "@/api/questionBankQuestionController";
+import {batchRemoveQuestionBankQuestionUsingPost} from "@/api/questionBankQuestionController";
 import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
-import questionBankList from "@/components/QuestionBankList";
 
 interface Props {
     questionId?: number[];
@@ -55,15 +51,17 @@ const BatchRemoveQuestionToBankModel: React.FC<Props> = (props) => {
         const questionBankId = values.questionBankId;
         if (!questionBankId) return;
         try {
-            await batchRemoveQuestionBankQuestionUsingPost({
+            const result = await batchRemoveQuestionBankQuestionUsingPost({
                 questionBankId: questionBankId,
                 questionId: questionIdList,
             });
             hide();
+            console.log(result)
             message.success("操作成功");
             onSubmit?.();
         } catch (e) {
             hide();
+            console.log(e)
             message.error("操作失败");
 
         }
