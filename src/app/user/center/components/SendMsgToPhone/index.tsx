@@ -68,7 +68,7 @@ export default function SendMsgToPhone() {
     }, [sendTime, markdownContent, sendKey]);
 
     return (
-        <div className="max-width-content" style={}>
+        <div className="max-width-content">
             <Input
                 placeholder="请输入 sendKey"
                 value={sendKey}

@@ -1,13 +1,13 @@
 "use server";
 import Title from "antd/es/typography/Title";
-import {Divider, Flex, message} from "antd";
+import {Alert, Divider, Flex, message} from "antd";
 import "./index.css";
 import Link from "next/link";
 import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import QuestionBankList from "@/components/QuestionBankList";
 import QuestionList from "@/components/QuestionList";
-import ScrollingNotification from "@/components/ScrollingNotification";
+import Marquee from 'react-fast-marquee';
 
 /**
  * 主页
@@ -42,9 +42,16 @@ export default async function HomePage() {
     }
 
     return <div id="homePage" className="max-width-content">
+        <Alert
+            banner={true}
+            message={
+                <Marquee pauseOnHover gradient={false}>
+                    面试鸡通知
+                </Marquee>
+            }
+        />
 
-
-        <Flex justify="space-between" align="center">
+        <Flex justify="space-between" align="center" style={{marginTop:"16px"}}>
             <Title level={3}>最新题库</Title>
             <Link href={"/banks"}>查看更多</Link>
         </Flex>

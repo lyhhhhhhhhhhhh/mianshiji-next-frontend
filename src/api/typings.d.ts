@@ -146,6 +146,41 @@ declare namespace API {
     id?: number;
   };
 
+  type doLoginUsingDELETEParams = {
+    /** password */
+    password?: string;
+    /** username */
+    username?: string;
+  };
+
+  type doLoginUsingGETParams = {
+    /** password */
+    password?: string;
+    /** username */
+    username?: string;
+  };
+
+  type doLoginUsingPATCHParams = {
+    /** password */
+    password?: string;
+    /** username */
+    username?: string;
+  };
+
+  type doLoginUsingPOSTParams = {
+    /** password */
+    password?: string;
+    /** username */
+    username?: string;
+  };
+
+  type doLoginUsingPUTParams = {
+    /** password */
+    password?: string;
+    /** username */
+    username?: string;
+  };
+
   type getPostVOByIdUsingGETParams = {
     /** id */
     id?: number;

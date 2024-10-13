@@ -8,7 +8,8 @@ import Link from "next/link";
 interface Props {
     questionBankId?: number;
     questionList: API.QuestionVO[];
-    cardTitle?: string
+    cardTitle?: string;
+    needTags?: boolean;
 }
 
 /**
@@ -18,7 +19,7 @@ interface Props {
  */
 const QuestionList = (props: Props) => {
 
-    const {questionList = [],cardTitle,questionBankId} = props;
+    const {questionList = [],cardTitle,questionBankId,needTags} = props;
 
     return (
         <Card className="question-list" title={cardTitle}>
@@ -26,7 +27,7 @@ const QuestionList = (props: Props) => {
                 itemLayout="horizontal"
                 dataSource={questionList}
                 renderItem={(item, index) => (
-                    <List.Item extra={<TagList tagList={item.tagList}/>}>
+                    <List.Item extra={needTags??<TagList tagList={item.tagList}/>}>
                         <List.Item.Meta
                             //这里的意思是 会传入一个参数(题库的id值)
                             //  若存在 意思就是从题库页面进入的题目 所以返回/bank/${questionBankId}/question/${item.id}

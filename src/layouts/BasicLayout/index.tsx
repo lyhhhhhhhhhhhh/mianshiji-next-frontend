@@ -56,6 +56,7 @@ export default function BasicLayout({children}: Props) {
     return (
         <div
             id="basicLayout"
+            className="max-width-content"
             style={{
                 minHeight: "100vh",
                 height: "100vh",

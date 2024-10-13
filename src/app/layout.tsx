@@ -22,7 +22,6 @@ const InitLayout: React.FC<Readonly<{
      * 全局初始化函数 有全局单词调用的代码 都可以写到这里
      */
     const dispatch = useDispatch<AppDispatch>()
-
     //初始化全局用户状态
     const doInitLoginUser = useCallback(async () => {
 
