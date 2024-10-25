@@ -4,9 +4,6 @@ import {getQuestionVoByIdUsingGet, listQuestionVoByPageUsingPost} from "@/api/qu
 import QuestionCard from "@/components/QUestionCard";
 import {Col, message, Row} from "antd";
 import QuestionList from "@/components/QuestionList";
-import {useState} from "react";
-import QuestionVO = API.QuestionVO;
-
 
 /**
  * 题库题目详情页
@@ -14,7 +11,7 @@ import QuestionVO = API.QuestionVO;
  */
 export default async  function QuestionPage({params}) {
 
-    const {questionBankId, questionId} = params
+    const {questionId} = params
 
     let questionList = null
 
@@ -41,11 +38,11 @@ export default async  function QuestionPage({params}) {
 
     return (
         <div id="QuestionPage">
-            <Row>
+            <Row gutter={8}>
                 <Col span={8}>
                     <QuestionList questionList={questionList} needTags={false}/>
                 </Col>
-                <Col span={16} push={1}>
+                <Col span={16}>
                     <QuestionCard question={question}/>
                 </Col>
             </Row>

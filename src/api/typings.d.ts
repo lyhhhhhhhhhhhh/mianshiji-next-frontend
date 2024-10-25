@@ -29,6 +29,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseNotificationsVO_ = {
+    code?: number;
+    data?: NotificationsVO;
+    message?: string;
+  };
+
   type BaseResponsePagePost_ = {
     code?: number;
     data?: PagePost_;
@@ -234,6 +240,18 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type NotificationAddRequest = {
+    message?: string;
+    type?: string;
+  };
+
+  type NotificationsVO = {
+    id?: number;
+    message?: string;
+    type?: string;
+    userId?: number;
   };
 
   type OrderItem = {

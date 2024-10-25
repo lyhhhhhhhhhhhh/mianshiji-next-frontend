@@ -3,6 +3,8 @@
 import {Card, List} from "antd";
 import TagList from "@/components/TagList";
 import Link from "next/link";
+import MdViewer from "@/components/MdViewer";
+import {memo} from "react";
 
 
 interface Props {
@@ -35,7 +37,15 @@ const QuestionList = (props: Props) => {
                             title={<Link href={questionBankId ? `/bank/${questionBankId}/question/${item.id}` :`/question/${item.id}`}>
                                 {item.title}
                             </Link>}
-                            description={item.content}
+                            description={
+                                <div style={{
+                                    whiteSpace: 'nowrap', // 强制不换行
+                                    overflow: 'hidden',   // 隐藏超出的内容
+                                    textOverflow: 'ellipsis', // 显示省略号
+                                    width: '90%', // 控制宽度
+                                }}>
+                                    {item.content.replace(/<\/br\s*\/?>/gi, ' ')}  {/* 替换 <br> */}
+                                </div>}
                         />
                     </List.Item>
                 )}
@@ -44,4 +54,4 @@ const QuestionList = (props: Props) => {
     )
 }
 
-export default QuestionList;
+export default memo(QuestionList);

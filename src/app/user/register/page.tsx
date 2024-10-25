@@ -53,7 +53,7 @@ const UserRegisterPage: React.FC = () => {
                 form={form}
                 logo={<Image src="/assets/logo_mianshiji.png" alt="面试鸡" height={44} width={44}/>}
                 title="面试鸡 - 用户注册"
-                subTitle="程序员面试刷题网站"
+                subTitle="考公刷题平台"
                 onFinish={doSubmit}
                 submitter={{
                     searchConfig : {

@@ -28,7 +28,8 @@
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
     "react-redux": "^9.1.2",
-    "serverchan-sdk": "^1.0.5"
+    "serverchan-sdk": "^1.0.5",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/node": "^20",

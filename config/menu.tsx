@@ -17,15 +17,6 @@ const menus = [
     name: "题目",
   },
   {
-    name: "面试鸭",
-    path: "https://mianshiya.com",
-    target: "_blank",
-  },
-  {
-    path: "/test",
-    name: "测试",
-  },
-  {
     path: "/admin",
     name: "管理",
     icon: <CrownOutlined />,
@@ -46,6 +37,11 @@ const menus = [
         name: "题目管理",
         access: ACCESS_ENUM.ADMIN
       },
+      {
+        path: "/admin/manager",
+        name: "网站管理",
+        access: ACCESS_ENUM.ADMIN
+      }
     ],
   },
 ] as MenuDataItem[];

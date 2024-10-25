@@ -3,6 +3,7 @@
 // API 更新时间：
 // API 唯一标识：
 import * as wxMpController from './wxMpController';
+import * as managerController from './managerController';
 import * as fileController from './fileController';
 import * as postController from './postController';
 import * as postFavourController from './postFavourController';
@@ -10,10 +11,10 @@ import * as postThumbController from './postThumbController';
 import * as questionController from './questionController';
 import * as questionBankController from './questionBankController';
 import * as questionBankQuestionController from './questionBankQuestionController';
-import * as testSaTokenLoginController from './testSaTokenLoginController';
 import * as userController from './userController';
 export default {
   wxMpController,
+  managerController,
   fileController,
   postController,
   postFavourController,
@@ -21,6 +22,5 @@ export default {
   questionController,
   questionBankController,
   questionBankQuestionController,
-  testSaTokenLoginController,
   userController,
 };

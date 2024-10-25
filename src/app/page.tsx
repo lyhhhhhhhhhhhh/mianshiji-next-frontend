@@ -7,7 +7,9 @@ import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import QuestionBankList from "@/components/QuestionBankList";
 import QuestionList from "@/components/QuestionList";
-import Marquee from 'react-fast-marquee';
+import ScrollingNotification from "@/components/ScrollingNotification";
+import Marquee from "react-fast-marquee";
+import {getNotificationUsingGet} from "@/api/managerController";
 
 /**
  * 主页
@@ -19,6 +21,9 @@ export default async function HomePage() {
 
     let questionList = [];
 
+    let alert = null;
+
+
     try {
         const res = await listQuestionBankVoByPageUsingPost({
             pageSize: 12,
@@ -26,8 +31,8 @@ export default async function HomePage() {
             sortOrder: "desc",
         })
         questionBankList = res.data.records ?? [];
-    }catch (e){
-
+    } catch (e) {
+        console.log("获取题库列表失败")
     }
 
     try {
@@ -37,21 +42,30 @@ export default async function HomePage() {
             sortOrder: "desc",
         })
         questionList = res.data.records ?? [];
-    }catch (e){
+    } catch (e) {
+        console.log("获取题目列表失败")
+    }
 
+    try {
+        const res = await getNotificationUsingGet()
+        alert = res.data
+    }catch (e) {
+        console.log("获取通知失败")
     }
 
     return <div id="homePage" className="max-width-content">
+
         <Alert
             banner={true}
+            type={alert.type}
             message={
                 <Marquee pauseOnHover gradient={false}>
-                    面试鸡通知
+                    {alert.message}
                 </Marquee>
             }
         />
 
-        <Flex justify="space-between" align="center" style={{marginTop:"16px"}}>
+        <Flex justify="space-between" align="center">
             <Title level={3}>最新题库</Title>
             <Link href={"/banks"}>查看更多</Link>
         </Flex>
@@ -59,16 +73,18 @@ export default async function HomePage() {
         {/*<ScrollingNotification title="测试标题" content="测试内容"/>*/}
         <div>
             题库列表
-            <QuestionBankList questionBankList={questionBankList} />
+            <QuestionBankList questionBankList={questionBankList}/>
         </div>
-        <Divider />
+        <Divider/>
         <Flex justify="space-between" align="center">
             <Title level={3}>最新题目</Title>
             <Link href={"/banks"}>查看更多</Link>
         </Flex>
         <div>
             题目列表
-            <QuestionList questionList={questionList} />
+            <QuestionList questionList={questionList}/>
         </div>
     </div>;
 }
+
+

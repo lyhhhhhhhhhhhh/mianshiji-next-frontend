@@ -97,6 +97,7 @@ const QuestionAdminPage: React.FC = () => {
             dataIndex: "id",
             valueType: "text",
             hideInForm: true,
+            width: 50
         },
         {
             title: "所属题库",
@@ -108,6 +109,7 @@ const QuestionAdminPage: React.FC = () => {
             title: "标题",
             dataIndex: "title",
             valueType: "text",
+            width:80,
         },
         {
             title: "内容",
@@ -129,7 +131,7 @@ const QuestionAdminPage: React.FC = () => {
             dataIndex: "answer",
             valueType: "text",
             hideInSearch: true,
-            width: 640,
+            width: 400,
             renderFormItem: (
                 item,
                 {fieldProps},
@@ -146,6 +148,7 @@ const QuestionAdminPage: React.FC = () => {
             fieldProps: {
                 mode: "tags",
             },
+
             render: (_, record) => {
                 const tagList = JSON.parse(record.tags || "[]")
                 return <TagList tagList={tagList}></TagList>

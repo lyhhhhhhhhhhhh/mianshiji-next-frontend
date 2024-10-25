@@ -11,7 +11,7 @@ export default function GlobalFooter() {
     <div
         className="global-footer"
     >
-      <div>© {currentYear} 面试刷题平台</div>
+      <div>© {currentYear} 考公刷题平台</div>
       <div>
           <a href="https://github.com/lyhhhhhhhhhhhh/mianshiji-next-frontend" target="_blank">
               作者：LKING

@@ -3,11 +3,13 @@ import "./globals.css";
 import {AntdRegistry} from "@ant-design/nextjs-registry";
 import BasicLayout from "@/layouts/BasicLayout";
 import React, {useCallback, useEffect} from "react";
-import {Provider, useDispatch} from "react-redux";
+import {Provider, useDispatch, useSelector} from "react-redux";
 import store, {AppDispatch} from "@/stores";
 import {getLoginUserUsingGet} from "@/api/userController";
 import AccessLayout from "@/access/AccessLayout";
 import {setLoginUser} from "@/stores/loginUser";
+import DEFAULT_USER from "@/constants/user";
+import ManagerAlert, {setManagerAlert} from "@/stores/managerAlert";
 
 /**
  * 全局初始化逻辑
@@ -22,6 +24,8 @@ const InitLayout: React.FC<Readonly<{
      * 全局初始化函数 有全局单词调用的代码 都可以写到这里
      */
     const dispatch = useDispatch<AppDispatch>()
+
+    console.log(useSelector(state => state.loginUser))
     //初始化全局用户状态
     const doInitLoginUser = useCallback(async () => {
 

@@ -69,14 +69,14 @@ export default function BasicLayout({children}: Props) {
                     <Image src="/assets/logo_mianshiji.png" height={32} width={32} alt="面试鸡刷题网站 - by LKING"/>
 
                 }
-                title="面试鸡刷题平台"
+                title="考公刷题平台"
                 layout="top"
                 //这里的location 代表的就是 在ProLayout当中 usePathname会自动获取到当前页面的相对路径 并自动添加高亮
                 location={{
                     pathname,
                 }}
                 avatarProps={{
-                    src: loginUser.userAvatar || "/assets/logo_mianshiji.png",
+                    src: loginUser.userAvatar || "/assets/logo_mianshiji_old.png",
                     size: "small",
                     title: loginUser.userName || "面试鸡",
                     /**

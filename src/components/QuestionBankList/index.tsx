@@ -2,6 +2,7 @@
 
 import {Avatar, Card, List, Typography} from "antd";
 import Link from "next/link";
+import {memo} from "react";
 
 
 /**
@@ -41,7 +42,7 @@ const QuestionBankList = (props: Props) => {
                     sm: 2,
                     md: 4,
                     lg: 4,
-                    xl: 6,
+                    xl: 4,
                     xxl: 3,
                 }}
                 dataSource={questionBankList}
@@ -55,4 +56,4 @@ const QuestionBankList = (props: Props) => {
     )
 }
 
-export default QuestionBankList;
+export default memo(QuestionBankList);
